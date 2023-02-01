@@ -1,7 +1,93 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(function () {
+
+
+
+
+$(document).ready(function() {
+    // Get the save button
+    const saveButton = $("#save-button");
+  
+    // Add a click event listener to the save button
+    saveButton.on("click", function() {
+      // Get the containing time-block
+      const timeBlock = $(this).closest(".time-block");
+      
+      // Get the id of the containing time-block
+      const timeBlockId = timeBlock.attr("id");
+      
+      // Get the user input
+      const userInput = timeBlock.find("input").val();
+      
+      // Save the user input in local storage using the id of the containing time-block as the key
+      localStorage.setItem(timeBlockId, userInput);
+    });
+  
+    // Get all the time blocks
+    const timeBlocks = $(".time-block");
+  
+    // Get the current hour
+    const currentHour = new Date().getHours();
+  
+    // Loop through each time block
+    timeBlocks.each(function() {
+      // Get the id of the time block
+      const timeBlockId = $(this).attr("id");
+      
+      // Get the hour from the id
+      const hour = parseInt(timeBlockId.split("-")[2]);
+      
+      // Compare the hour to the current hour
+      if (hour < currentHour) {
+        // Add the past class
+        $(this).addClass("past");
+      } else if (hour > currentHour) {
+        // Add the future class
+        $(this).addClass("future");
+      } else {
+        // Add the present class
+        $(this).addClass("present");
+      }
+  
+      // Get the saved user input from localStorage
+      const savedUserInput = localStorage.getItem(timeBlockId);
+      
+      // If there is a saved user input
+      if (savedUserInput) {
+        // Get the textarea element in the time block
+        const textarea = $(this).find("textarea");
+        
+        // Set the value of the textarea to the saved user input
+        textarea.val(savedUserInput);
+      }
+    });
+  
+    // Get the header element
+    const header = $("header");
+  
+    // Get the current date
+    const currentDate = new Date();
+  
+    // Format the current date as "Weekday, Month Day, Year"
+    const formattedDate = currentDate.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+  
+    // Create a new element to display the current date
+    const dateDisplay = $("<p>" + formattedDate + "</p>");
+  
+    // Add the date display to the header
+    header.append(dateDisplay);
+  });
+}
+
+    
+    
+    
     
     // TODO: Add a listener for click events on the save button. This code should
     // use the id in the containing time-block as a key to save the user input in
