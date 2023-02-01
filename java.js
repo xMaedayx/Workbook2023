@@ -12,10 +12,10 @@ $(document).ready(function() {
     // Add a click event listener to the save button
     saveButton.on("click", function() {
       // Get the containing time-block
-      const timeBlock = $(this).closest("hour");
+      const timeBlock = $(this).closest(".hour");
       
       // Get the id of the containing time-block
-      const timeBlockId = timeBlock.attr("col-2 col-md-1 hour text-center py-3");
+      const timeBlockId = timeBlock.attr("id");
       
       // Get the user input
       const userInput = timeBlock.find("input").val();
@@ -24,15 +24,14 @@ $(document).ready(function() {
       localStorage.setItem(timeBlockId, userInput);
     });
   
- 
     const timeBlocks = $(".container-fluid px-5");
-
+  
     // Get the current hour
     const currentHour = new Date().getHours();
     // Loop through each time block
     timeBlocks.each(function() {
       // Get the id of the time block
-      const timeBlockId = $(this).attr("hour");
+      const timeBlockId = $(this).attr("id");
       
       // Get the hour from the id
       const hour = parseInt(timeBlockId.split("-")[2]);
@@ -53,9 +52,9 @@ $(document).ready(function() {
       const savedUserInput = localStorage.getItem(timeBlockId);
       
       // If there is a saved user input
-      if (savedUserInput) {
+      if (savedUserInput == true) {
         // Get the textarea element in the time block
-        const textarea = $(this).find("col-8 col-md-10 description");
+        const textarea = $(this).find(".col-8.col-md-10.description");
         
         // Set the value of the textarea to the saved user input
         textarea.val(savedUserInput);
@@ -66,22 +65,22 @@ $(document).ready(function() {
     const header = $("header");
   
     // Get the current date
-    const currentDate = new Date();
+    const currentTime = new Date();
   
     // Format the current date as "Weekday, Month Day, Year"
-    const formattedDate = currentDate.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
+    const formattedTime = currentTime.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true
+      });
   
     // Create a new element to display the current date
-    const dateDisplay = $("<p>" + formattedDate + "</p>");
+    const timeDisplay = $("<p>" + formattedTime + "</p>");
   
     // Add the date display to the header
-    header.append(dateDisplay);
+    header.append(timeDisplay);
   });
+  
 
 
     
