@@ -7,15 +7,15 @@
 
 $(document).ready(function() {
     // Get the save button
-    const saveButton = $("#save-button");
+    const saveButton = $("#save");
   
     // Add a click event listener to the save button
     saveButton.on("click", function() {
       // Get the containing time-block
-      const timeBlock = $(this).closest(".time-block");
+      const timeBlock = $(this).closest("hour");
       
       // Get the id of the containing time-block
-      const timeBlockId = timeBlock.attr("id");
+      const timeBlockId = timeBlock.attr("col-2 col-md-1 hour text-center py-3");
       
       // Get the user input
       const userInput = timeBlock.find("input").val();
@@ -24,16 +24,15 @@ $(document).ready(function() {
       localStorage.setItem(timeBlockId, userInput);
     });
   
-    // Get all the time blocks
-    const timeBlocks = $(".time-block");
-  
+ 
+    const timeBlocks = $(".container-fluid px-5");
+
     // Get the current hour
     const currentHour = new Date().getHours();
-  
     // Loop through each time block
     timeBlocks.each(function() {
       // Get the id of the time block
-      const timeBlockId = $(this).attr("id");
+      const timeBlockId = $(this).attr("hour");
       
       // Get the hour from the id
       const hour = parseInt(timeBlockId.split("-")[2]);
@@ -41,13 +40,13 @@ $(document).ready(function() {
       // Compare the hour to the current hour
       if (hour < currentHour) {
         // Add the past class
-        $(this).addClass("past");
+        $(this).addClass("row time-block past");
       } else if (hour > currentHour) {
         // Add the future class
-        $(this).addClass("future");
+        $(this).addClass("row time-block future");
       } else {
         // Add the present class
-        $(this).addClass("present");
+        $(this).addClass("row time-block present");
       }
   
       // Get the saved user input from localStorage
@@ -56,7 +55,7 @@ $(document).ready(function() {
       // If there is a saved user input
       if (savedUserInput) {
         // Get the textarea element in the time block
-        const textarea = $(this).find("textarea");
+        const textarea = $(this).find("col-8 col-md-10 description");
         
         // Set the value of the textarea to the saved user input
         textarea.val(savedUserInput);
@@ -83,7 +82,7 @@ $(document).ready(function() {
     // Add the date display to the header
     header.append(dateDisplay);
   });
-}
+
 
     
     
@@ -107,4 +106,3 @@ $(document).ready(function() {
     // attribute of each time-block be used to do this?
     //
     // TODO: Add code to display the current date in the header of the page.
-  });
